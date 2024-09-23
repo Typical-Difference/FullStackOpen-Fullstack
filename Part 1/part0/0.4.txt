@@ -1,0 +1,40 @@
+sequenceDiagram
+    participant user
+    participant browser
+    participant server
+
+    user->>browser: User inputs new note and hits `Save` button
+    note left of browser: browser catches note from user
+
+    browser->>server: POST: https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    note left of server: New data sent as `new_note` upon submission
+
+    server->>browser: Status 302 back to https://studies.cs.helsinki.fi/exampleapp/notes
+    deactivate server
+    note right of browser: Refetch webpage
+
+    browser-->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server->>browser: HTML document
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the CSS file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that renders the notes
+    browser->>user: Browser displays the newly added note in list
+    Note right of user: Visual feedback 
