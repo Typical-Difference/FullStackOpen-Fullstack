@@ -15,6 +15,12 @@ const App = () => {
   const [selected, setSelected] = useState(0);
   const [vote, setVote] = useState(Array(anecdotes.length).fill(0));
 
+  const handleVote = () => {
+    let newVote = [...vote];
+    newVote[selected] += 1;
+    setVote(newVote);
+  };
+
   return (
     <div>
       {anecdotes[selected]}
@@ -23,7 +29,7 @@ const App = () => {
       <br />
       <button
         onClick={() => {
-          setVote(vote[selected] + 1);
+          handleVote();
         }}
       >
         vote
