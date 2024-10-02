@@ -14,13 +14,14 @@ const App = () => {
 
   const [selected, setSelected] = useState(0);
   const [vote, setVote] = useState(Array(anecdotes.length).fill(0));
-  const [maximum, setMaximum] = useState(0);
+  const [maxIndex, setMaximum] = useState(0);
   const handleVote = () => {
     let newVote = [...vote];
+
     newVote[selected] += 1;
     setVote(newVote);
 
-    setMaximum(Math.max(...vote));
+    setMaximum(newVote.indexOf(Math.max(...newVote)));
   };
 
   return (
@@ -45,8 +46,9 @@ const App = () => {
         next anecdote
       </button>
       <h1>Anecdote with the most votes</h1>
-      {anecdotes[selected]}
-      <p>has {maximum} votes</p>
+      {anecdotes[maxIndex]}
+      <br />
+      has {vote[maxIndex]} votes
     </div>
   );
 };
