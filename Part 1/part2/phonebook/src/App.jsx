@@ -8,6 +8,13 @@ const App = () => {
     setNewName(event.target.value);
   };
 
+  const addPerson = (event) => {
+    event.preventDefault();
+    const newPersonObj = { name: newName };
+    const newPersonsArray = persons.concat(newPersonObj);
+    setPersons(newPersonsArray);
+  };
+
   let debugPersons = [];
   for (let i = 0; i < persons.length; i++) {
     debugPersons.push(persons[i].name);
@@ -16,9 +23,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>debug: {newName}</div>
-      <div>debug: {debugPersons}</div>
-      <form>
+      <form onSubmit={addPerson}>
         <div>
           name: <input value={newName} onChange={handleNewName} />
         </div>
@@ -27,9 +32,12 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      ...
+      <ul>
+        {persons.map((person, index) => (
+          <li key={index}>{person.name}</li>
+        ))}
+      </ul>
     </div>
   );
 };
-
 export default App;
